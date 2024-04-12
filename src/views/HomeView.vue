@@ -1,23 +1,25 @@
 <template>
-  <main class="main">
-    <Spiner
-      v-if="loading"
-      style="width: 50px; height: 50px; margin: auto; display: block"
-      strokeWidth="5"
-      animationDuration=".5s"
-      aria-label="Custom ProgressSpinner"
-    />
-
-    <Table v-else :documents="documents" :attributes="attributes"/>
-
-    <Paginator 
-      v-model:rows="size"
-      v-model:first="offset"
-      :rows="size" 
-      :totalRecords="totalDocuments" 
-      :rowsPerPageOptions="rowsPaginator"
-    ></Paginator>
-  </main>
+  <AppContainer>
+    <main class="main">
+      <Spiner
+        v-if="loading"
+        style="width: 50px; height: 50px; margin: auto; display: block"
+        strokeWidth="5"
+        animationDuration=".5s"
+        aria-label="Custom ProgressSpinner"
+      />
+  
+      <Table v-else :documents="documents" :attributes="attributes"/>
+  
+      <Paginator 
+        v-model:rows="size"
+        v-model:first="offset"
+        :rows="size" 
+        :totalRecords="totalDocuments" 
+        :rowsPerPageOptions="rowsPaginator"
+      ></Paginator>
+    </main>
+  </AppContainer>
 </template>
 
 <script setup>
@@ -25,6 +27,7 @@ import { onBeforeMount } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useDocumentStore } from '../stores/document'
 import Table from '../components/Table.vue'
+import AppContainer from '../components/AppContainer.vue'
 
 const store = useDocumentStore();
 const { 

@@ -49,19 +49,44 @@ export const useDocumentStore = defineStore('document', () => {
   async function fetchDocuments() {
     try {
       setLoading(true)
+
+      await fetchAttributes()
+      await fetchDocumentsList()
+
+      setLoading(false)
+      setError('')
+    } catch (error) {
+      setLoading(false)
+      setError(error.message)
+      toast.add({ severity: 'error', summary: 'Ошибка', detail: error.message, life: 5000 })
+    }
+  }
+
+  async function fetchDocument(id) {
+    try {
+      setLoading(true)
+
+      await fetchAttributes()
+      await fetchCurrentDocument(id)
+
+      setLoading(false)
+      setError('')
+    } catch (error) {
+      setLoading(false)
+      setError(error.message)
+      toast.add({ severity: 'error', summary: 'Ошибка', detail: error.message, life: 5000 })
+    }
+  }
+
+  async function fetchAttributes() {
+    try {
       // получаем доступные атрибуты
       const data = await API.fetchAttributes()
-      // console.log("🚀 ~ fetchAttributes ~ data:", data)
 
       if (data === undefined) {
         throw new Error('Server Error!')
       } else {
-        // setLoading(false)
-        // setError('')
         setAttributes(data)
-        // console.log(attributes.value);
-        // получаем документы
-        fetchDocumentsList()
       }
     } catch (error) {
       setLoading(false)
@@ -72,7 +97,6 @@ export const useDocumentStore = defineStore('document', () => {
 
   async function fetchDocumentsList(orderAttr = 'default') {
     try {
-      setLoading(true)
       const attr = Object.keys(attributes.value)
 
       const body = {
@@ -86,13 +110,10 @@ export const useDocumentStore = defineStore('document', () => {
       }
 
       const data = await API.fetchDocumentsList(body)
-      // console.log("🚀 ~ fetchAttributes ~ data:", data)
 
       if (data === undefined) {
         throw new Error('Server Error!')
       } else {
-        setLoading(false)
-        setError('')
         setDocuments(data.atributes)
         setTotalDocuments(data.size)
       }
@@ -105,21 +126,14 @@ export const useDocumentStore = defineStore('document', () => {
 
   async function fetchCurrentDocument(id) {
     try {
-      setLoading(true)
-     
-
       const data = await API.fetchDocument(id)
-      console.log("🚀 fetchDocument", data)
 
       if (data === undefined) {
         throw new Error('Server Error!')
       } else {
-        setLoading(false)
-        setError('')
         setCurrentDocument(data)
       }
     } catch (error) {
-
       setLoading(false)
       setError(error.message)
       toast.add({ severity: 'error', summary: 'Ошибка', detail: error.message, life: 5000 })
@@ -136,7 +150,6 @@ export const useDocumentStore = defineStore('document', () => {
     offset,
     loading,
     fetchDocuments, 
-    fetchDocumentsList,
-    fetchCurrentDocument, 
+    fetchDocument, 
   }
 })

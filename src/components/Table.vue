@@ -19,7 +19,6 @@
         ></Column>
       </template>
     </DataTable>
-    <!-- {{ console.log(selectedDocument) }} -->
   </div>
 </template>
 

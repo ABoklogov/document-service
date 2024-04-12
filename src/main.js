@@ -11,6 +11,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Paginator from 'primevue/paginator';
 import SelectButton from 'primevue/selectbutton';
+import VirtualScroller from 'primevue/virtualscroller'
 
 import App from './App.vue'
 import router from './router'
@@ -34,4 +35,5 @@ app.component('Column', Column)
 app.component('Spiner', ProgressSpinner)
 app.component('Paginator', Paginator)
 app.component('SelectButton', SelectButton)
+app.component('VirtualScroller', VirtualScroller)
 app.mount('#app')
